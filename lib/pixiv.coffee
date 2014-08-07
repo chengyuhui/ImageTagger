@@ -6,15 +6,29 @@ wait = require 'wait.for'
 mime = require 'mime'
 request = require 'superagent'
 cheerio = require 'cheerio'
+fs = require 'fs'
+
+removeLongest = (arr)->
+  longestLen = 0
+  longestIndex = 0
+  for v,i in arr
+    continue if not v?
+    if v.length > longestLen
+      longestIndex = i
+      longestLen = v.length
+
+  console.log 'Removed tag %s because it is too long.',arr[longestIndex]
+  delete arr[longestIndex]
+  return arr
 
 module.exports = (env,config)->
   defaults =
     match:(fname)->
-      result = fname.match /^\d+\s*-\s*(\d+)\s*$/
+      result = fname.match /^.*\((\d+)\)\s*$/
       return false if _.isNull result
       return _.last result
     dry:false
-    template:_.template('<%= user %> - <%= title %> (<%= work_id %>@<%= user_id %>)[<%= tags.join(" ") %>]')
+    template:_.template('<%= user %> - <%= title %> (<%= work_id %>@<%= user_id %>)[ #<%= tags.join(" ") %> ]')
     recursive:false
     mime:[
       'image/jpeg'
@@ -37,7 +51,7 @@ module.exports = (env,config)->
       catch e
         return err(e)
 
-      if res.statusCode is not 200
+      unless res.statusCode is  200
         return err(res.statusCode)
 
       $ = cheerio.load(res.text)
@@ -45,7 +59,6 @@ module.exports = (env,config)->
         title:$('h1.title').text()
         work_id:id
       }
-
       user = $('.author-summary').children('.u-name')
       info.user_id = _.last user.attr('href').split('/')
       info.user = user.children().text()
@@ -55,7 +68,8 @@ module.exports = (env,config)->
       $('.added-tags').children().each (index,elem)->
         tags.push $(@).children('a').text().trim()
 
-      wait.for _.partialRight(setTimeout,1000)
+
+      wait.for _.partialRight(setTimeout,100)
 
       _.defer done,null,info
   ,1)
@@ -69,8 +83,14 @@ module.exports = (env,config)->
     return if !id
     queue.push id,(err,info)->
       return console.error 'ERR:' + err if err
-      console.log path.basename(name,path.extname(name)) + ' -> ' + config.template(info)
+      while config.template(info).length > 100
+        info.tags = removeLongest(info.tags)
 
-      #queue.kill()
+      newName = config.template(info)
+
+      console.log path.basename(name,path.extname(name)) + ' -> ' + newName
+      return if config.dry
+
+      fs.renameSync name,path.dirname(name) + '/' + newName + path.extname(name)
   )
 
