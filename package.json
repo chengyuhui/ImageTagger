@@ -15,8 +15,10 @@
     "img_tagger": "bin/imgtagger"
   },
   "dependencies": {
+    "async": "^0.9.0",
     "cheerio": "^0.17.0",
     "commander": "^2.3.0",
+    "dive": "^0.3.1",
     "lodash": "^2.4.1",
     "mime": "^1.2.11",
     "superagent": "^0.18.2",

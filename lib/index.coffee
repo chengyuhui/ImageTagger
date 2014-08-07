@@ -35,6 +35,7 @@ program.version(packageinf.version)
   cliconfig.mime = [] if not cliconfig.mime?
   cliconfig.mime.push type
 )
+.option('-r, --recursive','Include files in subdirectories',->cliconfig.recursive = true)
 .option('-c, --config <filename>','Specify config file.',(conf)->
   try
     config = require conf
@@ -44,7 +45,7 @@ program.version(packageinf.version)
 )
 
 program
-.command('pixiv')
+.command('pixiv [dir]')
 .description('Tag images from pixiv.')
 .action (env)->
   config = _.extend config,cliconfig
