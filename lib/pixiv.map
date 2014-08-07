@@ -1,0 +1,10 @@
+{
+  "version": 3,
+  "file": "pixiv.js",
+  "sourceRoot": "",
+  "sources": [
+    "pixiv.coffee"
+  ],
+  "names": [],
+  "mappings": ";AAAA;AAAA,EAAA,MAAM,CAAC,OAAP,GAAiB,SAAC,GAAD,EAAK,MAAL,GAAA;WACf,OAAO,CAAC,GAAR,CAAY,MAAZ,EADe;EAAA,CAAjB,CAAA;AAAA"
+}

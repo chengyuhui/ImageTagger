@@ -1,0 +1,25 @@
+{
+  "name": "ImageTagger",
+  "version": "0.0.1",
+  "description": "Image Tagger for Pixiv,etc.",
+  "main": "./lib/index",
+  "scripts": {
+    "test": "node bin/imgtagger"
+  },
+  "keywords": [
+    "pixiv"
+  ],
+  "author": "Harry Cheng",
+  "license": "GPLv2",
+  "bin": {
+    "img_tagger": "bin/imgtagger"
+  },
+  "dependencies": {
+    "cheerio": "^0.17.0",
+    "commander": "^2.3.0",
+    "lodash": "^2.4.1",
+    "mime": "^1.2.11",
+    "superagent": "^0.18.2",
+    "wait.for": "^0.6.4"
+  }
+}
