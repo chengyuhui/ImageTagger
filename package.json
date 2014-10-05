@@ -1,0 +1,27 @@
+{
+  "name": "PixivUtil",
+  "version": "0.0.1",
+  "description": "Pixiv tools.",
+  "main": "./lib/index",
+  "scripts": {
+    "test": "node bin/pixiv"
+  },
+  "keywords": [
+    "pixiv"
+  ],
+  "author": "Harry Cheng",
+  "license": "GPLv2",
+  "bin": {
+    "pixiv": "bin/pixiv"
+  },
+  "dependencies": {
+    "cheerio": "^0.17.0",
+    "commander": "^2.3.0",
+    "lodash": "^2.4.1",
+    "mime": "^1.2.11",
+    "npmlog": "^0.1.1",
+    "q": "^1.0.1",
+    "superagent": "^0.18.2",
+    "throat": "^1.0.0"
+  }
+}
