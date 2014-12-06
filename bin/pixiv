@@ -35,7 +35,5 @@ program.command('tag [dir]').description('Tag images from pixiv.').action(functi
     });
 });
 
-console.log(process.cwd())
-
 program.parse(process.argv);
 
