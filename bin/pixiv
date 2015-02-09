@@ -2,18 +2,14 @@
 var log = require('npmlog'),
     program = require('commander'),
     _ = require('lodash'),
-    path = require('path');
+    path = require('path'),
+    fs = require('fs');
 
 log.info('version', require('../package.json').version);
 
 program
     .option('-d, --dry', 'No renaming, just output. ', false)
     .option('-j, --jobs [limit]', 'Concurrency', "5");
-
-
-var System = require('es6-module-loader').System;
-System.paths.tag = "file:" + path.join(__dirname,"../lib/tag.js").replace(/\\/g, '/');
-System.paths.util = "file:" + path.join(__dirname,"../lib/util.js").replace(/\\/g, '/');
 
 var checkArgs = function() {
     var jobs;
@@ -25,15 +21,14 @@ var checkArgs = function() {
     }
 };
 
-program.command('tag [dir]').description('Tag images from pixiv.').action(function(env) {
+conf = require('../config.json');
+
+program.command('rename')
+.description('Fetch work data from pixiv and rename the file.')
+.action(function(env) {
     checkArgs();
     var dir = env || process.cwd();
-    System.import('tag').then(function(m) {
-        m.run(dir,program);
-    }).catch(function (e) {
-        console.log(e.message);
-    });
+    require('../lib/rename')(program,conf).catch(console.log);
 });
 
 program.parse(process.argv);
-
