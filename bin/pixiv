@@ -1,3 +1,34 @@
 #!/usr/bin/env node
+var log = require('npmlog'),
+    program = require('commander'),
+    _ = require('lodash'),
+    path = require('path'),
+    fs = require('fs');
 
-require('../lib')
+log.info('version', require('../package.json').version);
+
+program
+    .option('-d, --dry', 'No renaming, just output. ', false)
+    .option('-j, --jobs [limit]', 'Concurrency', "5");
+
+var checkArgs = function() {
+    var jobs;
+    program.dry = !!program.dry;
+    jobs = Number(program.jobs);
+    if (_.isNaN(jobs) || jobs < 1 || (("" + (parseInt(program.jobs))) !== program.jobs)) {
+        log.error('args', "Invalid concurrency: " + program.jobs);
+        return process.exit(1);
+    }
+};
+
+conf = require('../config.json');
+
+program.command('rename')
+.description('Fetch work data from pixiv and rename the file.')
+.action(function(env) {
+    checkArgs();
+    var dir = env || process.cwd();
+    require('../lib/rename')(program,conf).catch(console.log);
+});
+
+program.parse(process.argv);

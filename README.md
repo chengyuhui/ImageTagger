@@ -1,3 +1,4 @@
 ❤ Midori Yakumo
 ===========
-This project is a Node.js port for MidoriYakumo/ImageTagger( https://github.com/MidoriYakumo/ImageTagger ) .
+[![Dependency Status](https://david-dm.org/chengyuhui/ImageTagger?style=flat)](https://david-dm.org/chengyuhui/ImageTagger)
+[![devDependency Status](https://david-dm.org/chengyuhui/ImageTagger/dev-status.svg?style=flat)](https://david-dm.org/chengyuhui/ImageTagger#info=devDependencies)
